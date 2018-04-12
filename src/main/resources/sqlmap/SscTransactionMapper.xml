@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.achain.mapper.SscTransactionMapper" >
+  <resultMap id="BaseResultMap" type="com.achain.domain.entity.SscTransaction" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="trx_id" property="trxId" jdbcType="VARCHAR" />
+    <result column="block_id" property="blockId" jdbcType="VARCHAR" />
+    <result column="block_num" property="blockNum" jdbcType="BIGINT" />
+    <result column="block_position" property="blockPosition" jdbcType="INTEGER" />
+    <result column="trx_type" property="trxType" jdbcType="INTEGER" />
+    <result column="coin_type" property="coinType" jdbcType="VARCHAR" />
+    <result column="contract_id" property="contractId" jdbcType="VARCHAR" />
+    <result column="from_acct" property="fromAcct" jdbcType="VARCHAR" />
+    <result column="from_addr" property="fromAddr" jdbcType="VARCHAR" />
+    <result column="to_acct" property="toAcct" jdbcType="VARCHAR" />
+    <result column="to_addr" property="toAddr" jdbcType="VARCHAR" />
+    <result column="sub_address" property="subAddress" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    <result column="fee" property="fee" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="trx_time" property="trxTime" jdbcType="TIMESTAMP" />
+    <result column="called_abi" property="calledAbi" jdbcType="VARCHAR" />
+    <result column="abi_params" property="abiParams" jdbcType="VARCHAR" />
+    <result column="event_type" property="eventType" jdbcType="VARCHAR" />
+    <result column="event_param" property="eventParam" jdbcType="VARCHAR" />
+    <result column="extra_trx_id" property="extraTrxId" jdbcType="VARCHAR" />
+    <result column="is_completed" property="isCompleted" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, trx_id, block_id, block_num, block_position, trx_type, coin_type, contract_id,
+    from_acct, from_addr, to_acct, to_addr, sub_address, amount, fee, memo, trx_time,
+    called_abi, abi_params, event_type, event_param, extra_trx_id, is_completed, create_time,
+    update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.achain.domain.entity.SscTransactionCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_ssc_transaction
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="offSet != null and offSet != -1" >
+      limit #{offSet} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_ssc_transaction
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_ssc_transaction
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.achain.domain.entity.SscTransactionCriteria" >
+    delete from tb_ssc_transaction
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.achain.domain.entity.SscTransaction" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_ssc_transaction (trx_id, block_id, block_num,
+    block_position, trx_type, coin_type,
+    contract_id, from_acct, from_addr,
+    to_acct, to_addr, sub_address,
+    amount, fee, memo, trx_time,
+    called_abi, abi_params, event_type,
+    event_param, extra_trx_id, is_completed,
+    create_time, update_time)
+    values (#{trxId,jdbcType=VARCHAR}, #{blockId,jdbcType=VARCHAR}, #{blockNum,jdbcType=BIGINT},
+    #{blockPosition,jdbcType=INTEGER}, #{trxType,jdbcType=INTEGER}, #{coinType,jdbcType=VARCHAR},
+    #{contractId,jdbcType=VARCHAR}, #{fromAcct,jdbcType=VARCHAR}, #{fromAddr,jdbcType=VARCHAR},
+    #{toAcct,jdbcType=VARCHAR}, #{toAddr,jdbcType=VARCHAR}, #{subAddress,jdbcType=VARCHAR},
+    #{amount,jdbcType=BIGINT}, #{fee,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{trxTime,jdbcType=TIMESTAMP},
+    #{calledAbi,jdbcType=VARCHAR}, #{abiParams,jdbcType=VARCHAR}, #{eventType,jdbcType=VARCHAR},
+    #{eventParam,jdbcType=VARCHAR}, #{extraTrxId,jdbcType=VARCHAR}, #{isCompleted,jdbcType=TINYINT},
+    now(), now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.achain.domain.entity.SscTransaction" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_ssc_transaction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="trxId != null" >
+        trx_id,
+      </if>
+      <if test="blockId != null" >
+        block_id,
+      </if>
+      <if test="blockNum != null" >
+        block_num,
+      </if>
+      <if test="blockPosition != null" >
+        block_position,
+      </if>
+      <if test="trxType != null" >
+        trx_type,
+      </if>
+      <if test="coinType != null" >
+        coin_type,
+      </if>
+      <if test="contractId != null" >
+        contract_id,
+      </if>
+      <if test="fromAcct != null" >
+        from_acct,
+      </if>
+      <if test="fromAddr != null" >
+        from_addr,
+      </if>
+      <if test="toAcct != null" >
+        to_acct,
+      </if>
+      <if test="toAddr != null" >
+        to_addr,
+      </if>
+      <if test="subAddress != null" >
+        sub_address,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="trxTime != null" >
+        trx_time,
+      </if>
+      <if test="calledAbi != null" >
+        called_abi,
+      </if>
+      <if test="abiParams != null" >
+        abi_params,
+      </if>
+      <if test="eventType != null" >
+        event_type,
+      </if>
+      <if test="eventParam != null" >
+        event_param,
+      </if>
+      <if test="extraTrxId != null" >
+        extra_trx_id,
+      </if>
+      <if test="isCompleted != null" >
+        is_completed,
+      </if>
+      create_time,
+      update_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="trxId != null" >
+        #{trxId,jdbcType=VARCHAR},
+      </if>
+      <if test="blockId != null" >
+        #{blockId,jdbcType=VARCHAR},
+      </if>
+      <if test="blockNum != null" >
+        #{blockNum,jdbcType=BIGINT},
+      </if>
+      <if test="blockPosition != null" >
+        #{blockPosition,jdbcType=INTEGER},
+      </if>
+      <if test="trxType != null" >
+        #{trxType,jdbcType=INTEGER},
+      </if>
+      <if test="coinType != null" >
+        #{coinType,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null" >
+        #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromAcct != null" >
+        #{fromAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="fromAddr != null" >
+        #{fromAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="toAcct != null" >
+        #{toAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="toAddr != null" >
+        #{toAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="subAddress != null" >
+        #{subAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="trxTime != null" >
+        #{trxTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calledAbi != null" >
+        #{calledAbi,jdbcType=VARCHAR},
+      </if>
+      <if test="abiParams != null" >
+        #{abiParams,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null" >
+        #{eventType,jdbcType=VARCHAR},
+      </if>
+      <if test="eventParam != null" >
+        #{eventParam,jdbcType=VARCHAR},
+      </if>
+      <if test="extraTrxId != null" >
+        #{extraTrxId,jdbcType=VARCHAR},
+      </if>
+      <if test="isCompleted != null" >
+        #{isCompleted,jdbcType=TINYINT},
+      </if>
+      now(),
+      now(),
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.achain.domain.entity.SscTransactionCriteria" resultType="java.lang.Integer" >
+    select count(*) from tb_ssc_transaction
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_ssc_transaction
+    <set >
+      update_time = now(),
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.trxId != null" >
+        trx_id = #{record.trxId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blockId != null" >
+        block_id = #{record.blockId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blockNum != null" >
+        block_num = #{record.blockNum,jdbcType=BIGINT},
+      </if>
+      <if test="record.blockPosition != null" >
+        block_position = #{record.blockPosition,jdbcType=INTEGER},
+      </if>
+      <if test="record.trxType != null" >
+        trx_type = #{record.trxType,jdbcType=INTEGER},
+      </if>
+      <if test="record.coinType != null" >
+        coin_type = #{record.coinType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractId != null" >
+        contract_id = #{record.contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromAcct != null" >
+        from_acct = #{record.fromAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromAddr != null" >
+        from_addr = #{record.fromAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toAcct != null" >
+        to_acct = #{record.toAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toAddr != null" >
+        to_addr = #{record.toAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subAddress != null" >
+        sub_address = #{record.subAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=BIGINT},
+      </if>
+      <if test="record.fee != null" >
+        fee = #{record.fee,jdbcType=INTEGER},
+      </if>
+      <if test="record.memo != null" >
+        memo = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trxTime != null" >
+        trx_time = #{record.trxTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.calledAbi != null" >
+        called_abi = #{record.calledAbi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.abiParams != null" >
+        abi_params = #{record.abiParams,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eventType != null" >
+        event_type = #{record.eventType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eventParam != null" >
+        event_param = #{record.eventParam,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extraTrxId != null" >
+        extra_trx_id = #{record.extraTrxId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isCompleted != null" >
+        is_completed = #{record.isCompleted,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_ssc_transaction
+    set id = #{record.id,jdbcType=BIGINT},
+    trx_id = #{record.trxId,jdbcType=VARCHAR},
+    block_id = #{record.blockId,jdbcType=VARCHAR},
+    block_num = #{record.blockNum,jdbcType=BIGINT},
+    block_position = #{record.blockPosition,jdbcType=INTEGER},
+    trx_type = #{record.trxType,jdbcType=INTEGER},
+    coin_type = #{record.coinType,jdbcType=VARCHAR},
+    contract_id = #{record.contractId,jdbcType=VARCHAR},
+    from_acct = #{record.fromAcct,jdbcType=VARCHAR},
+    from_addr = #{record.fromAddr,jdbcType=VARCHAR},
+    to_acct = #{record.toAcct,jdbcType=VARCHAR},
+    to_addr = #{record.toAddr,jdbcType=VARCHAR},
+    sub_address = #{record.subAddress,jdbcType=VARCHAR},
+    amount = #{record.amount,jdbcType=BIGINT},
+    fee = #{record.fee,jdbcType=INTEGER},
+    memo = #{record.memo,jdbcType=VARCHAR},
+    trx_time = #{record.trxTime,jdbcType=TIMESTAMP},
+    called_abi = #{record.calledAbi,jdbcType=VARCHAR},
+    abi_params = #{record.abiParams,jdbcType=VARCHAR},
+    event_type = #{record.eventType,jdbcType=VARCHAR},
+    event_param = #{record.eventParam,jdbcType=VARCHAR},
+    extra_trx_id = #{record.extraTrxId,jdbcType=VARCHAR},
+    is_completed = #{record.isCompleted,jdbcType=TINYINT},
+    update_time = now()
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.achain.domain.entity.SscTransaction" >
+    update tb_ssc_transaction
+    <set >
+      update_time = now(),
+      <if test="trxId != null" >
+        trx_id = #{trxId,jdbcType=VARCHAR},
+      </if>
+      <if test="blockId != null" >
+        block_id = #{blockId,jdbcType=VARCHAR},
+      </if>
+      <if test="blockNum != null" >
+        block_num = #{blockNum,jdbcType=BIGINT},
+      </if>
+      <if test="blockPosition != null" >
+        block_position = #{blockPosition,jdbcType=INTEGER},
+      </if>
+      <if test="trxType != null" >
+        trx_type = #{trxType,jdbcType=INTEGER},
+      </if>
+      <if test="coinType != null" >
+        coin_type = #{coinType,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null" >
+        contract_id = #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromAcct != null" >
+        from_acct = #{fromAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="fromAddr != null" >
+        from_addr = #{fromAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="toAcct != null" >
+        to_acct = #{toAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="toAddr != null" >
+        to_addr = #{toAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="subAddress != null" >
+        sub_address = #{subAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="trxTime != null" >
+        trx_time = #{trxTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calledAbi != null" >
+        called_abi = #{calledAbi,jdbcType=VARCHAR},
+      </if>
+      <if test="abiParams != null" >
+        abi_params = #{abiParams,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null" >
+        event_type = #{eventType,jdbcType=VARCHAR},
+      </if>
+      <if test="eventParam != null" >
+        event_param = #{eventParam,jdbcType=VARCHAR},
+      </if>
+      <if test="extraTrxId != null" >
+        extra_trx_id = #{extraTrxId,jdbcType=VARCHAR},
+      </if>
+      <if test="isCompleted != null" >
+        is_completed = #{isCompleted,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.achain.domain.entity.SscTransaction" >
+    update tb_ssc_transaction
+    set trx_id = #{trxId,jdbcType=VARCHAR},
+    block_id = #{blockId,jdbcType=VARCHAR},
+    block_num = #{blockNum,jdbcType=BIGINT},
+    block_position = #{blockPosition,jdbcType=INTEGER},
+    trx_type = #{trxType,jdbcType=INTEGER},
+    coin_type = #{coinType,jdbcType=VARCHAR},
+    contract_id = #{contractId,jdbcType=VARCHAR},
+    from_acct = #{fromAcct,jdbcType=VARCHAR},
+    from_addr = #{fromAddr,jdbcType=VARCHAR},
+    to_acct = #{toAcct,jdbcType=VARCHAR},
+    to_addr = #{toAddr,jdbcType=VARCHAR},
+    sub_address = #{subAddress,jdbcType=VARCHAR},
+    amount = #{amount,jdbcType=BIGINT},
+    fee = #{fee,jdbcType=INTEGER},
+    memo = #{memo,jdbcType=VARCHAR},
+    trx_time = #{trxTime,jdbcType=TIMESTAMP},
+    called_abi = #{calledAbi,jdbcType=VARCHAR},
+    abi_params = #{abiParams,jdbcType=VARCHAR},
+    event_type = #{eventType,jdbcType=VARCHAR},
+    event_param = #{eventParam,jdbcType=VARCHAR},
+    extra_trx_id = #{extraTrxId,jdbcType=VARCHAR},
+    is_completed = #{isCompleted,jdbcType=TINYINT},
+    update_time = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="insertRecordBatch" parameterType="java.util.List">
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_ssc_transaction (trx_id, block_id, block_num,
+    block_position, trx_type, coin_type,contract_id,from_acct,
+    from_addr, to_acct, to_addr,sub_address,
+    amount, fee, memo, trx_time,
+    called_abi, abi_params,  event_type,
+    event_param, extra_trx_id,
+    is_completed, create_time, update_time)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.trxId,jdbcType=VARCHAR}, #{item.blockId,jdbcType=VARCHAR}, #{item.blockNum,jdbcType=BIGINT},
+      #{item.blockPosition,jdbcType=INTEGER}, #{item.trxType,jdbcType=INTEGER},#{item.coinType,jdbcType=VARCHAR}, #{item.contractId,jdbcType=VARCHAR},
+      #{item.fromAcct,jdbcType=VARCHAR},
+      #{item.fromAddr,jdbcType=VARCHAR}, #{item.toAcct,jdbcType=VARCHAR}, #{item.toAddr,jdbcType=VARCHAR},#{item.subAddress,jdbcType=VARCHAR},
+      #{item.amount,jdbcType=BIGINT}, #{item.fee,jdbcType=INTEGER}, #{item.memo,jdbcType=VARCHAR},
+      #{item.trxTime,jdbcType=TIMESTAMP},
+      #{item.calledAbi,jdbcType=VARCHAR}, #{item.abiParams,jdbcType=VARCHAR}, #{item.eventType,jdbcType=VARCHAR},
+      #{item.eventParam,jdbcType=VARCHAR},#{item.extraTrxId,jdbcType=VARCHAR},
+      #{item.isCompleted,jdbcType=TINYINT}, now(), now()
+      )
+    </foreach>
+  </insert>
+
+  <select id="statisticsAllData" parameterType="com.achain.domain.dto.SscStatisticsParamDto" resultType="com.achain.domain.dto.SscStatisticsDto" >
+    select count(*) as transNum,sum(amount) as transAmount from tb_ssc_transaction where 1=1
+    <if test="trxTime != null" >
+      AND trx_time >= #{trxTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="coinType != null" >
+      AND coin_type = #{coinType,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="countBySubAddress" resultType="java.lang.Long" >
+    select count(DISTINCT sub_address) as num from tb_ssc_transaction where sub_address is not null and sub_address <![CDATA[ <> ]]> ''
+  </select>
+
+  <select id="statisticsFromSub" parameterType="com.achain.domain.dto.SscStatisticsParamDto" resultType="com.achain.domain.dto.SscTransactionForSubDto" >
+    select count(*) as transNum,sum(amount) as transAmount,sub_address as subAddr ,coin_type from tb_ssc_transaction where 1=1
+    <if test="startTrxTime != null" >
+      <![CDATA[AND create_time >= #{startTrxTime,jdbcType=TIMESTAMP} AND create_time < #{endTrxTime,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="coinType != null" >
+      AND coin_type = #{coinType,jdbcType=VARCHAR}
+    </if>
+    <if test="address != null" >
+      AND to_addr = #{address,jdbcType=VARCHAR}
+    </if>
+    GROUP by sub_address
+  </select>
+
+  <select id="selectByExampleFromAddr" parameterType="com.achain.domain.dto.SscTransactionAddrDto" resultMap="BaseResultMap" >
+    select distinct <include refid="Base_Column_List" />
+    from tb_ssc_transaction t
+    <if test="address != null" >
+      inner join  (
+      select x.trx_id as ti from tb_ssc_transaction x where x.from_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select x.trx_id as ti from tb_ssc_transaction x where x.to_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select e.orig_trx_id as ti  from tb_ssc_transaction_ex e where e.from_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select e.orig_trx_id as ti  from tb_ssc_transaction_ex e where e.to_addr = #{address,jdbcType=VARCHAR})
+      as tb on t.trx_id= tb.ti
+    </if>
+    where 1=1
+    <if test="blockNum != null" >
+      AND t.block_num = #{blockNum,jdbcType=BIGINT}
+    </if>
+    <if test="contractId != null" >
+      AND t.contract_id = #{contractId,jdbcType=VARCHAR}
+    </if>
+    <if test="subAddress != null" >
+      AND (t.sub_address = #{subAddress,jdbcType=VARCHAR})
+    </if>
+    ORDER BY t.trx_time DESC
+    <if test="offSet != null and offSet != -1" >
+      limit #{offSet} , #{pageSize}
+    </if>
+  </select>
+
+  <select id="countByExampleFromAddr" parameterType="com.achain.domain.dto.SscTransactionAddrDto" resultType="java.lang.Integer" >
+    select count(DISTINCT t.trx_id) from tb_ssc_transaction t
+    <if test="address != null" >
+      inner join  (
+      select x.trx_id as ti from tb_ssc_transaction x where x.from_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select x.trx_id as ti from tb_ssc_transaction x where x.to_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select e.orig_trx_id as ti  from tb_ssc_transaction_ex e where e.from_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select e.orig_trx_id as ti  from tb_ssc_transaction_ex e where e.to_addr = #{address,jdbcType=VARCHAR})
+      as tb on t.trx_id= tb.ti
+    </if>
+    where 1=1
+    <if test="blockNum != null" >
+      AND t.block_num = #{blockNum,jdbcType=BIGINT}
+    </if>
+    <if test="contractId != null" >
+      AND t.contract_id = #{contractId,jdbcType=VARCHAR}
+    </if>
+    <if test="subAddress != null" >
+      AND (t.sub_address = #{subAddress,jdbcType=VARCHAR})
+    </if>
+  </select>
+
+  <select id="countByExampleFromAddrAndCoinType" parameterType="com.achain.domain.dto.SscTransactionAddrDto" resultType="java.lang.Integer" >
+    select count(DISTINCT t.trx_id) from tb_ssc_transaction t
+    <if test="address != null" >
+      inner join  (
+      select x.trx_id as ti from tb_ssc_transaction x where x.from_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select x.trx_id as ti from tb_ssc_transaction x where x.to_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select e.orig_trx_id as ti  from tb_ssc_transaction_ex e where e.from_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select e.orig_trx_id as ti  from tb_ssc_transaction_ex e where e.to_addr = #{address,jdbcType=VARCHAR})
+      as tb on t.trx_id= tb.ti
+    </if>
+    where 1=1
+    <if test="blockNum != null" >
+      AND t.block_num = #{blockNum,jdbcType=BIGINT}
+    </if>
+    <if test="contractId != null" >
+      AND t.contract_id = #{contractId,jdbcType=VARCHAR}
+    </if>
+    <if test="subAddress != null" >
+      AND (t.sub_address = #{subAddress,jdbcType=VARCHAR})
+    </if>
+    <if test="coinType != null" >
+      AND (t.coin_type = #{coinType,jdbcType=VARCHAR})
+    </if>
+  </select>
+
+
+  <select id="selectByExampleFromAddrAndCoinType" parameterType="com.achain.domain.dto.SscTransactionAddrDto" resultMap="BaseResultMap" >
+    select distinct <include refid="Base_Column_List" />
+    from tb_ssc_transaction t
+    <if test="address != null" >
+      inner join  (
+      select x.trx_id as ti from tb_ssc_transaction x where x.from_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select x.trx_id as ti from tb_ssc_transaction x where x.to_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select e.orig_trx_id as ti  from tb_ssc_transaction_ex e where e.from_addr = #{address,jdbcType=VARCHAR}
+      UNION all
+      select e.orig_trx_id as ti  from tb_ssc_transaction_ex e where e.to_addr = #{address,jdbcType=VARCHAR})
+      as tb on t.trx_id= tb.ti
+    </if>
+    where 1=1
+    <if test="blockNum != null" >
+      AND t.block_num = #{blockNum,jdbcType=BIGINT}
+    </if>
+    <if test="contractId != null" >
+      AND t.contract_id = #{contractId,jdbcType=VARCHAR}
+    </if>
+    <if test="subAddress != null" >
+      AND (t.sub_address = #{subAddress,jdbcType=VARCHAR})
+    </if>
+    <if test="coinType != null" >
+      AND (t.coin_type = #{coinType,jdbcType=VARCHAR})
+    </if>
+    ORDER BY t.trx_time DESC
+    <if test="offSet != null and offSet != -1" >
+      limit #{offSet} , #{pageSize}
+    </if>
+  </select>
+</mapper>

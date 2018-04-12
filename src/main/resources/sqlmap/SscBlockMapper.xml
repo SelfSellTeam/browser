@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.achain.mapper.SscBlockMapper" >
+    <resultMap id="BaseResultMap" type="com.achain.domain.entity.SscBlock" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="block_id" property="blockId" jdbcType="VARCHAR" />
+        <result column="block_num" property="blockNum" jdbcType="BIGINT" />
+        <result column="block_size" property="blockSize" jdbcType="BIGINT" />
+        <result column="previous" property="previous" jdbcType="VARCHAR" />
+        <result column="trx_digest" property="trxDigest" jdbcType="VARCHAR" />
+        <result column="prev_secret" property="prevSecret" jdbcType="VARCHAR" />
+        <result column="next_secret_hash" property="nextSecretHash" jdbcType="VARCHAR" />
+        <result column="random_seed" property="randomSeed" jdbcType="VARCHAR" />
+        <result column="signee" property="signee" jdbcType="VARCHAR" />
+        <result column="block_time" property="blockTime" jdbcType="TIMESTAMP" />
+        <result column="trans_num" property="transNum" jdbcType="INTEGER" />
+        <result column="trans_amount" property="transAmount" jdbcType="BIGINT" />
+        <result column="trans_fee" property="transFee" jdbcType="BIGINT" />
+        <result column="status" property="status" jdbcType="TINYINT" typeHandler="com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                        <foreach collection="criteria.statusCriteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler} and #{criterion.secondValue,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                        <foreach collection="criteria.statusCriteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler} and #{criterion.secondValue,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List" >
+        id, block_id, block_num, block_size, previous, trx_digest, prev_secret, next_secret_hash,
+        random_seed, signee, block_time, trans_num, trans_amount, trans_fee, status, create_time,
+        update_time
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.achain.domain.entity.SscBlockCriteria" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from tb_ssc_block
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+        <if test="offSet != null and offSet != -1" >
+            limit #{offSet} , #{pageSize}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_ssc_block
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from tb_ssc_block
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.achain.domain.entity.SscBlockCriteria" >
+        delete from tb_ssc_block
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.achain.domain.entity.SscBlock" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tb_ssc_block (block_id, block_num, block_size,
+        previous, trx_digest, prev_secret,
+        next_secret_hash, random_seed, signee,
+        block_time, trans_num, trans_amount,
+        trans_fee, status,
+        create_time, update_time)
+        values (#{blockId,jdbcType=VARCHAR}, #{blockNum,jdbcType=BIGINT}, #{blockSize,jdbcType=BIGINT},
+        #{previous,jdbcType=VARCHAR}, #{trxDigest,jdbcType=VARCHAR}, #{prevSecret,jdbcType=VARCHAR},
+        #{nextSecretHash,jdbcType=VARCHAR}, #{randomSeed,jdbcType=VARCHAR}, #{signee,jdbcType=VARCHAR},
+        #{blockTime,jdbcType=TIMESTAMP}, #{transNum,jdbcType=INTEGER}, #{transAmount,jdbcType=BIGINT},
+        #{transFee,jdbcType=BIGINT}, #{status,jdbcType=TINYINT,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler},
+        now(), now())
+    </insert>
+    <insert id="insertSelective" parameterType="com.achain.domain.entity.SscBlock" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tb_ssc_block
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="blockId != null" >
+                block_id,
+            </if>
+            <if test="blockNum != null" >
+                block_num,
+            </if>
+            <if test="blockSize != null" >
+                block_size,
+            </if>
+            <if test="previous != null" >
+                previous,
+            </if>
+            <if test="trxDigest != null" >
+                trx_digest,
+            </if>
+            <if test="prevSecret != null" >
+                prev_secret,
+            </if>
+            <if test="nextSecretHash != null" >
+                next_secret_hash,
+            </if>
+            <if test="randomSeed != null" >
+                random_seed,
+            </if>
+            <if test="signee != null" >
+                signee,
+            </if>
+            <if test="blockTime != null" >
+                block_time,
+            </if>
+            <if test="transNum != null" >
+                trans_num,
+            </if>
+            <if test="transAmount != null" >
+                trans_amount,
+            </if>
+            <if test="transFee != null" >
+                trans_fee,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            create_time,
+            update_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="blockId != null" >
+                #{blockId,jdbcType=VARCHAR},
+            </if>
+            <if test="blockNum != null" >
+                #{blockNum,jdbcType=BIGINT},
+            </if>
+            <if test="blockSize != null" >
+                #{blockSize,jdbcType=BIGINT},
+            </if>
+            <if test="previous != null" >
+                #{previous,jdbcType=VARCHAR},
+            </if>
+            <if test="trxDigest != null" >
+                #{trxDigest,jdbcType=VARCHAR},
+            </if>
+            <if test="prevSecret != null" >
+                #{prevSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="nextSecretHash != null" >
+                #{nextSecretHash,jdbcType=VARCHAR},
+            </if>
+            <if test="randomSeed != null" >
+                #{randomSeed,jdbcType=VARCHAR},
+            </if>
+            <if test="signee != null" >
+                #{signee,jdbcType=VARCHAR},
+            </if>
+            <if test="blockTime != null" >
+                #{blockTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="transNum != null" >
+                #{transNum,jdbcType=INTEGER},
+            </if>
+            <if test="transAmount != null" >
+                #{transAmount,jdbcType=BIGINT},
+            </if>
+            <if test="transFee != null" >
+                #{transFee,jdbcType=BIGINT},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=TINYINT,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler},
+            </if>
+            now(),
+            now(),
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.achain.domain.entity.SscBlockCriteria" resultType="java.lang.Integer" >
+        select count(*) from tb_ssc_block
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+        update tb_ssc_block
+        <set >
+            update_time = now(),
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.blockId != null" >
+                block_id = #{record.blockId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.blockNum != null" >
+                block_num = #{record.blockNum,jdbcType=BIGINT},
+            </if>
+            <if test="record.blockSize != null" >
+                block_size = #{record.blockSize,jdbcType=BIGINT},
+            </if>
+            <if test="record.previous != null" >
+                previous = #{record.previous,jdbcType=VARCHAR},
+            </if>
+            <if test="record.trxDigest != null" >
+                trx_digest = #{record.trxDigest,jdbcType=VARCHAR},
+            </if>
+            <if test="record.prevSecret != null" >
+                prev_secret = #{record.prevSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="record.nextSecretHash != null" >
+                next_secret_hash = #{record.nextSecretHash,jdbcType=VARCHAR},
+            </if>
+            <if test="record.randomSeed != null" >
+                random_seed = #{record.randomSeed,jdbcType=VARCHAR},
+            </if>
+            <if test="record.signee != null" >
+                signee = #{record.signee,jdbcType=VARCHAR},
+            </if>
+            <if test="record.blockTime != null" >
+                block_time = #{record.blockTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.transNum != null" >
+                trans_num = #{record.transNum,jdbcType=INTEGER},
+            </if>
+            <if test="record.transAmount != null" >
+                trans_amount = #{record.transAmount,jdbcType=BIGINT},
+            </if>
+            <if test="record.transFee != null" >
+                trans_fee = #{record.transFee,jdbcType=BIGINT},
+            </if>
+            <if test="record.status != null" >
+                status = #{record.status,jdbcType=TINYINT,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+        update tb_ssc_block
+        set id = #{record.id,jdbcType=BIGINT},
+        block_id = #{record.blockId,jdbcType=VARCHAR},
+        block_num = #{record.blockNum,jdbcType=BIGINT},
+        block_size = #{record.blockSize,jdbcType=BIGINT},
+        previous = #{record.previous,jdbcType=VARCHAR},
+        trx_digest = #{record.trxDigest,jdbcType=VARCHAR},
+        prev_secret = #{record.prevSecret,jdbcType=VARCHAR},
+        next_secret_hash = #{record.nextSecretHash,jdbcType=VARCHAR},
+        random_seed = #{record.randomSeed,jdbcType=VARCHAR},
+        signee = #{record.signee,jdbcType=VARCHAR},
+        block_time = #{record.blockTime,jdbcType=TIMESTAMP},
+        trans_num = #{record.transNum,jdbcType=INTEGER},
+        trans_amount = #{record.transAmount,jdbcType=BIGINT},
+        trans_fee = #{record.transFee,jdbcType=BIGINT},
+        status = #{record.status,jdbcType=TINYINT,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler},
+        update_time = now()
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.achain.domain.entity.SscBlock" >
+        update tb_ssc_block
+        <set >
+            update_time = now(),
+            <if test="blockId != null" >
+                block_id = #{blockId,jdbcType=VARCHAR},
+            </if>
+            <if test="blockNum != null" >
+                block_num = #{blockNum,jdbcType=BIGINT},
+            </if>
+            <if test="blockSize != null" >
+                block_size = #{blockSize,jdbcType=BIGINT},
+            </if>
+            <if test="previous != null" >
+                previous = #{previous,jdbcType=VARCHAR},
+            </if>
+            <if test="trxDigest != null" >
+                trx_digest = #{trxDigest,jdbcType=VARCHAR},
+            </if>
+            <if test="prevSecret != null" >
+                prev_secret = #{prevSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="nextSecretHash != null" >
+                next_secret_hash = #{nextSecretHash,jdbcType=VARCHAR},
+            </if>
+            <if test="randomSeed != null" >
+                random_seed = #{randomSeed,jdbcType=VARCHAR},
+            </if>
+            <if test="signee != null" >
+                signee = #{signee,jdbcType=VARCHAR},
+            </if>
+            <if test="blockTime != null" >
+                block_time = #{blockTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="transNum != null" >
+                trans_num = #{transNum,jdbcType=INTEGER},
+            </if>
+            <if test="transAmount != null" >
+                trans_amount = #{transAmount,jdbcType=BIGINT},
+            </if>
+            <if test="transFee != null" >
+                trans_fee = #{transFee,jdbcType=BIGINT},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=TINYINT,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.achain.domain.entity.SscBlock" >
+        update tb_ssc_block
+        set block_id = #{blockId,jdbcType=VARCHAR},
+        block_num = #{blockNum,jdbcType=BIGINT},
+        block_size = #{blockSize,jdbcType=BIGINT},
+        previous = #{previous,jdbcType=VARCHAR},
+        trx_digest = #{trxDigest,jdbcType=VARCHAR},
+        prev_secret = #{prevSecret,jdbcType=VARCHAR},
+        next_secret_hash = #{nextSecretHash,jdbcType=VARCHAR},
+        random_seed = #{randomSeed,jdbcType=VARCHAR},
+        signee = #{signee,jdbcType=VARCHAR},
+        block_time = #{blockTime,jdbcType=TIMESTAMP},
+        trans_num = #{transNum,jdbcType=INTEGER},
+        trans_amount = #{transAmount,jdbcType=BIGINT},
+        trans_fee = #{transFee,jdbcType=BIGINT},
+        status = #{status,jdbcType=TINYINT,typeHandler=com.ms.common.mybatis.typehandler.NullableEnumOrdinalTypeHandler},
+        update_time = now()
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

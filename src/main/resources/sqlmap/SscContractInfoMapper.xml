@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.achain.mapper.SscContractInfoMapper" >
+    <resultMap id="BaseResultMap" type="com.achain.domain.entity.SscContractInfo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="contract_id" property="contractId" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="coin_type" property="coinType" jdbcType="VARCHAR" />
+        <result column="bytecode" property="bytecode" jdbcType="VARCHAR" />
+        <result column="hash" property="hash" jdbcType="VARCHAR" />
+        <result column="owner" property="owner" jdbcType="VARCHAR" />
+        <result column="owner_address" property="ownerAddress" jdbcType="VARCHAR" />
+        <result column="owner_name" property="ownerName" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="reg_time" property="regTime" jdbcType="TIMESTAMP" />
+        <result column="reg_trx_id" property="regTrxId" jdbcType="VARCHAR" />
+        <result column="balance" property="balance" jdbcType="BIGINT" />
+        <result column="circulation" property="circulation" jdbcType="BIGINT" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List" >
+        id, contract_id, name, coin_type, bytecode, hash, owner, owner_address, owner_name,
+        type, description, reg_time, reg_trx_id, balance, circulation, status, create_time,
+        update_time
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.achain.domain.entity.SscContractInfoCriteria" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from tb_ssc_contract_info
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+        <if test="offSet != null and offSet != -1" >
+            limit #{offSet} , #{pageSize}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_ssc_contract_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from tb_ssc_contract_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.achain.domain.entity.SscContractInfoCriteria" >
+        delete from tb_ssc_contract_info
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.achain.domain.entity.SscContractInfo" >
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tb_ssc_contract_info (contract_id, name, coin_type,
+        bytecode, hash, owner,
+        owner_address, owner_name, type,
+        description, reg_time, reg_trx_id,
+        balance, circulation, status,
+        create_time, update_time)
+        values (#{contractId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{coinType,jdbcType=VARCHAR},
+        #{bytecode,jdbcType=VARCHAR}, #{hash,jdbcType=VARCHAR}, #{owner,jdbcType=VARCHAR},
+        #{ownerAddress,jdbcType=VARCHAR}, #{ownerName,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
+        #{description,jdbcType=VARCHAR}, #{regTime,jdbcType=TIMESTAMP}, #{regTrxId,jdbcType=VARCHAR},
+        #{balance,jdbcType=BIGINT}, #{circulation,jdbcType=BIGINT}, #{status,jdbcType=INTEGER},
+        now(), now())
+    </insert>
+    <insert id="insertSelective" parameterType="com.achain.domain.entity.SscContractInfo" >
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tb_ssc_contract_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="contractId != null" >
+                contract_id,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="coinType != null" >
+                coin_type,
+            </if>
+            <if test="bytecode != null" >
+                bytecode,
+            </if>
+            <if test="hash != null" >
+                hash,
+            </if>
+            <if test="owner != null" >
+                owner,
+            </if>
+            <if test="ownerAddress != null" >
+                owner_address,
+            </if>
+            <if test="ownerName != null" >
+                owner_name,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="regTime != null" >
+                reg_time,
+            </if>
+            <if test="regTrxId != null" >
+                reg_trx_id,
+            </if>
+            <if test="balance != null" >
+                balance,
+            </if>
+            <if test="circulation != null" >
+                circulation,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            create_time,
+            update_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="contractId != null" >
+                #{contractId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="coinType != null" >
+                #{coinType,jdbcType=VARCHAR},
+            </if>
+            <if test="bytecode != null" >
+                #{bytecode,jdbcType=VARCHAR},
+            </if>
+            <if test="hash != null" >
+                #{hash,jdbcType=VARCHAR},
+            </if>
+            <if test="owner != null" >
+                #{owner,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerAddress != null" >
+                #{ownerAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerName != null" >
+                #{ownerName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="regTime != null" >
+                #{regTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="regTrxId != null" >
+                #{regTrxId,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null" >
+                #{balance,jdbcType=BIGINT},
+            </if>
+            <if test="circulation != null" >
+                #{circulation,jdbcType=BIGINT},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+            now(),
+            now(),
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.achain.domain.entity.SscContractInfoCriteria" resultType="java.lang.Integer" >
+        select count(*) from tb_ssc_contract_info
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+        update tb_ssc_contract_info
+        <set >
+            update_time = now(),
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.contractId != null" >
+                contract_id = #{record.contractId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.name != null" >
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.coinType != null" >
+                coin_type = #{record.coinType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bytecode != null" >
+                bytecode = #{record.bytecode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.hash != null" >
+                hash = #{record.hash,jdbcType=VARCHAR},
+            </if>
+            <if test="record.owner != null" >
+                owner = #{record.owner,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ownerAddress != null" >
+                owner_address = #{record.ownerAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ownerName != null" >
+                owner_name = #{record.ownerName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.type != null" >
+                type = #{record.type,jdbcType=TINYINT},
+            </if>
+            <if test="record.description != null" >
+                description = #{record.description,jdbcType=VARCHAR},
+            </if>
+            <if test="record.regTime != null" >
+                reg_time = #{record.regTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.regTrxId != null" >
+                reg_trx_id = #{record.regTrxId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.balance != null" >
+                balance = #{record.balance,jdbcType=BIGINT},
+            </if>
+            <if test="record.circulation != null" >
+                circulation = #{record.circulation,jdbcType=BIGINT},
+            </if>
+            <if test="record.status != null" >
+                status = #{record.status,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+        update tb_ssc_contract_info
+        set id = #{record.id,jdbcType=INTEGER},
+        contract_id = #{record.contractId,jdbcType=VARCHAR},
+        name = #{record.name,jdbcType=VARCHAR},
+        coin_type = #{record.coinType,jdbcType=VARCHAR},
+        bytecode = #{record.bytecode,jdbcType=VARCHAR},
+        hash = #{record.hash,jdbcType=VARCHAR},
+        owner = #{record.owner,jdbcType=VARCHAR},
+        owner_address = #{record.ownerAddress,jdbcType=VARCHAR},
+        owner_name = #{record.ownerName,jdbcType=VARCHAR},
+        type = #{record.type,jdbcType=TINYINT},
+        description = #{record.description,jdbcType=VARCHAR},
+        reg_time = #{record.regTime,jdbcType=TIMESTAMP},
+        reg_trx_id = #{record.regTrxId,jdbcType=VARCHAR},
+        balance = #{record.balance,jdbcType=BIGINT},
+        circulation = #{record.circulation,jdbcType=BIGINT},
+        status = #{record.status,jdbcType=INTEGER},
+        update_time = now()
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.achain.domain.entity.SscContractInfo" >
+        update tb_ssc_contract_info
+        <set >
+            update_time = now(),
+            <if test="contractId != null" >
+                contract_id = #{contractId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="coinType != null" >
+                coin_type = #{coinType,jdbcType=VARCHAR},
+            </if>
+            <if test="bytecode != null" >
+                bytecode = #{bytecode,jdbcType=VARCHAR},
+            </if>
+            <if test="hash != null" >
+                hash = #{hash,jdbcType=VARCHAR},
+            </if>
+            <if test="owner != null" >
+                owner = #{owner,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerAddress != null" >
+                owner_address = #{ownerAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerName != null" >
+                owner_name = #{ownerName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="description != null" >
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="regTime != null" >
+                reg_time = #{regTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="regTrxId != null" >
+                reg_trx_id = #{regTrxId,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null" >
+                balance = #{balance,jdbcType=BIGINT},
+            </if>
+            <if test="circulation != null" >
+                circulation = #{circulation,jdbcType=BIGINT},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.achain.domain.entity.SscContractInfo" >
+        update tb_ssc_contract_info
+        set contract_id = #{contractId,jdbcType=VARCHAR},
+        name = #{name,jdbcType=VARCHAR},
+        coin_type = #{coinType,jdbcType=VARCHAR},
+        bytecode = #{bytecode,jdbcType=VARCHAR},
+        hash = #{hash,jdbcType=VARCHAR},
+        owner = #{owner,jdbcType=VARCHAR},
+        owner_address = #{ownerAddress,jdbcType=VARCHAR},
+        owner_name = #{ownerName,jdbcType=VARCHAR},
+        type = #{type,jdbcType=TINYINT},
+        description = #{description,jdbcType=VARCHAR},
+        reg_time = #{regTime,jdbcType=TIMESTAMP},
+        reg_trx_id = #{regTrxId,jdbcType=VARCHAR},
+        balance = #{balance,jdbcType=BIGINT},
+        circulation = #{circulation,jdbcType=BIGINT},
+        status = #{status,jdbcType=INTEGER},
+        update_time = now()
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
